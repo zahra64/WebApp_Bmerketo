@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using WebApp.Models.Entities;
+using static WebApp.Models.Entities.TagEntity;
 
 namespace WebApp.Contexts;
 
@@ -13,6 +15,11 @@ public class DataContext : IdentityDbContext<UserEntity>
 
     public DbSet<AddressEntity> Addresses { get; set; }
     public DbSet<UserAddressEntity> UserAddresses { get; set; }
+    public DbSet<ProductEntity> Products { get; set; }
+    public DbSet<TagEntity> Tags { get; set; }
+
+    public DbSet<ProductTagEntity> ProductTags { get; set; }
+    public DbSet<ContactFormEntity> ContactForms { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -21,7 +28,7 @@ public class DataContext : IdentityDbContext<UserEntity>
         builder.Entity<IdentityRole>().HasData(
             new IdentityRole {
                 Id = "c8489980-6fd1-40d9-b059-b8593debae14",
-                Name = "admin",
+                Name = "Admin",
                 NormalizedName = "ADMIN",
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
             },
@@ -53,5 +60,19 @@ public class DataContext : IdentityDbContext<UserEntity>
             UserId = userEntity.Id,
             RoleId = "c8489980-6fd1-40d9-b059-b8593debae14"
         });
+
+
+        builder.Entity<TagEntity>().HasData(
+            new { Id = 1, TagName = "new" },
+            new { Id = 2, TagName = "featured" },
+            new { Id = 3, TagName = "popular" }
+        );
+        builder.Entity<ProductEntity>().HasData(
+            new ProductEntity { Id = 1, Title = "Gaming RGB GR900 ", Price = 200, ImageUrl = "https://www.dustinhome.se/product/5011133361/gaming-rgb-gr900", Description = "Voxicon GR900 har snabb responstid. Skärmen svarar direkt när du klickar på eller flyttar musen vilket ökar precisionen i ditt spelande" }
+        );
+        builder.Entity<ProductTagEntity>().HasData(
+            new ProductTagEntity { ProductId = 1, TagId = 1 }
+        );
+
     }
 }

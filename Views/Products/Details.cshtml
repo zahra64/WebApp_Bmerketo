@@ -1,0 +1,53 @@
+﻿@model int
+@inject ProductRepository productRepo
+
+@{
+    var product = await productRepo.GetAsync(x => x.Id == Model);
+}
+
+<section class="product-details">
+    <div style="padding-top: 100px;">
+        <div class="container">
+
+            @if (product != null)
+            {
+                <div>
+                    <div>@product.Id</div>
+                    <div>@product.Title</div>
+                    <div>
+                        @foreach (var tag in product.ProductTags)
+                        {
+                            <span class="me-2">@tag.Tag.TagName</span>
+                        }
+                    </div>
+                    <div>@product.Description</div>
+                </div>
+            }
+            else
+            {
+                <div>
+                    There is no product is found
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@*@model int
+@inject ProductRepository productRepo
+
+<div>
+    @foreach (var product in await productRepo.GetAsync())
+    {
+        <div>
+            <div><a asp-action="details" asp-route-id="@product.Id">@product.Title </a></div>
+            <div>
+                @foreach (var tag in product.ProductTags)
+                {
+                    <span class="me-2">@tag.Tag.TagName</span>
+                }
+            </div>
+
+        </div>
+    }
+</div>*@

@@ -1,4 +1,4 @@
-﻿namespace WebApp.Models.Entities
+﻿ namespace WebApp.Models.Entities
 {
     public class AddressEntity
     {
